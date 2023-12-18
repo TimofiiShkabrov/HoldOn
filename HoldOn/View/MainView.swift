@@ -8,41 +8,60 @@
 import SwiftUI
 
 struct MainView: View {
-    
-    @StateObject var networkManager = NetworkManager.shared
-    
-    @State private var coinsList = [CoinsList]()
-    
-    @State private var errorMassage = ""
-    @State private var showError = false
-    
     var body: some View {
-        ZStack {
+        VStack {
             VStack {
-                Text("HoldOn")
-                List(coinsList, id: \.self) { coinsList in
-                    HStack {
-                        Text(coinsList.id)
-                        Text(coinsList.name)
-                        Text(coinsList.symbol)
-                    }
+                
+                // Header
+                HeaderView()
+                
+                Text("Home")
+                    .font(.title3)
+                    .bold()
+                    .foregroundColor(.white)
+                
+                ScrollView {
+                    // Balance info
+                    BalanceInfoView()
+                    
+                    // Balance diagram
+                    BalanceDiagramView()
+                    
+                    // All coin
+                    AllCoinsInfoView()
+                    
+                    // Footer button
+                    FooterButton()
+                    
+                    Spacer()
+                    
                 }
             }
+            .padding(8)
         }
-        .alert(isPresented: $showError) {
-            Alert(title: Text("Error"), message: Text(errorMassage), dismissButton: .default(Text("OK")))
-        }
-        .task {
-            networkManager.fetchCoinsList(from: Link.coinsList.url) { result in
-                switch result {
-                case .success(let newCoinsList):
-                    self.coinsList = newCoinsList
-                case .failure(let error):
-                    self.errorMassage = warningMassage(error: error)
-                    self.showError = true
-                }
+        .background(Color(#colorLiteral(red: 0.3881825805, green: 0.1972106695, blue: 0.7583934665, alpha: 1)))
+    }
+}
+
+struct FooterButton: View {
+    var body: some View {
+        HStack {
+            
+            Spacer()
+            
+            Button {
+                //
+            } label: {
+                Text("All coins")
+                    .foregroundStyle(Color.white)
+                    .padding(8)
+                    .background(Color(#colorLiteral(red: 0.3881825805, green: 0.1972106695, blue: 0.7583934665, alpha: 1)))
+                    .cornerRadius(10)
+                    .shadow(color: .white.opacity(0.4), radius: 5, x: -3, y: -3)
+                    .shadow(color: .black.opacity(0.3), radius: 5, x: 5, y: 5)
             }
         }
+        .padding(18)
     }
 }
 

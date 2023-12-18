@@ -9,7 +9,18 @@ import SwiftUI
 
 struct AllCoinsInfoView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text("Top Coins by growth")
+                .font(.subheadline)
+                .padding(.bottom, 8)
+            
+            VStack {
+                ForEach(0 ..< 10, id: \.self) { _ in
+                    CoinInfoView()
+                }
+            }
+        }
+        .padding(16)
     }
 }
 

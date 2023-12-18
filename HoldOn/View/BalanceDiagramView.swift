@@ -9,7 +9,14 @@ import SwiftUI
 
 struct BalanceDiagramView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Color(.cyan)
+        }
+        .frame(height: 200)
+        .cornerRadius(10)
+        .shadow(color: .white.opacity(0.4), radius: 5, x: -3, y: -3)
+        .shadow(color: .black.opacity(0.3), radius: 5, x: 5, y: 5)
+        .padding(18)
     }
 }
 
