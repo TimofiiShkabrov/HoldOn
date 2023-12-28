@@ -29,7 +29,11 @@ struct CoinsListView: View {
                 ZStack {
                     VStack {
                         SwipeButtonView()
+                        
                         HStack {
+                            
+                            Spacer()
+                            
                             Button {
                                 CoinsListSaveManager.removeSavedCoinsList {
                                     viewModel.fetchCoinsList()
@@ -38,9 +42,16 @@ struct CoinsListView: View {
                                 Image(systemName: "arrow.triangle.2.circlepath")
                             }
                         }
+                        .foregroundStyle(Color("TextColor"))
+                        .padding(.bottom, 8)
+                        
                         TextField("Enter Coin name", text: $viewModel.searchCoin)
-                            .foregroundStyle(Color("TextColor"))
-                            .padding(.horizontal, 24)
+                            .padding(8)
+                            .background(Color("MainColorDark").opacity(0.2))
+                            .foregroundStyle(Color("TextColorDark"))
+                            .cornerRadius(8)
+                            .padding(.horizontal, 8)
+                            .padding(.bottom, 8)
                         
                         List(viewModel.filterCoinsList(), id: \.self) { coinsList in
                             HStack {
@@ -57,9 +68,12 @@ struct CoinsListView: View {
                                     }
                                     .foregroundColor(self.isSelected ? .green : .none)
                             }
+                            .listRowBackground(Color.clear)
                             .foregroundStyle(Color("TextColor"))
                         }
-                        .background(Color("Main"))
+                        .listStyle(.plain)
+                        
+                        .cornerRadius(8)
                         
                         Button {
                             print(viewModel.selectedCoins)
@@ -69,10 +83,11 @@ struct CoinsListView: View {
                     }
                 }
                 .padding(16)
-                .background(Color("Main"))
+                .background(Color("MainColor"))
                 
             }
         }
+        .ignoresSafeArea()
         .task {
             if viewModel.filterCoinsList().isEmpty {
                 viewModel.fetchCoinsList()

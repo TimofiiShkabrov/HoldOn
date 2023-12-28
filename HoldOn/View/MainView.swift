@@ -42,7 +42,7 @@ struct MainView: View {
             }
             .padding(8)
         }
-        .background(Color("Main"))
+        .background(Color("MainColor"))
     }
 }
 

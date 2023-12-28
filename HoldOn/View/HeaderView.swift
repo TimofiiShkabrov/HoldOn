@@ -34,7 +34,7 @@ struct HeaderView: View {
                         .frame(width: 24, height: 24)
                         .foregroundStyle(Color("TextColor"))
                         .padding(8)
-                        .background(Color("Main"))
+                        .background(Color("MainColor"))
                         .frame(width: 42, height: 42)
                         .cornerRadius(10)
                         .shadow(color: .white.opacity(0.4), radius: 5, x: -3, y: -3)
