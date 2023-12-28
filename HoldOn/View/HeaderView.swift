@@ -8,30 +8,33 @@
 import SwiftUI
 
 struct HeaderView: View {
+    
+    @State var viewModel: MainViewModel
+    
     var body: some View {
         HStack {
             HStack(spacing: 8) {
-                Image(systemName: "bitcoinsign.circle.fill")
+                Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 42, height: 42)
-                    .shadow(color: .white, radius: 5)
+                    .frame(width: 80, height: 80)
                 Text("HoldOn")
+                    .foregroundStyle(Color("TextColor"))
                     .font(.title)
                     .bold()
 
                 Spacer()
                 
                 Button {
-                    //
+                    viewModel.showCoinsListView.toggle()
                 } label: {
                     Image(systemName: "plus")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.white)
+                        .foregroundStyle(Color("TextColor"))
                         .padding(8)
-                        .background(Color(#colorLiteral(red: 0.3881825805, green: 0.1972106695, blue: 0.7583934665, alpha: 1)))
+                        .background(Color("Main"))
                         .frame(width: 42, height: 42)
                         .cornerRadius(10)
                         .shadow(color: .white.opacity(0.4), radius: 5, x: -3, y: -3)
@@ -43,6 +46,3 @@ struct HeaderView: View {
     }
 }
 
-#Preview {
-    HeaderView()
-}

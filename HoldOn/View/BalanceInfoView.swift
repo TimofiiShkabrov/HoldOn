@@ -12,16 +12,19 @@ struct BalanceInfoView: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text("Balance")
+                        .foregroundStyle(Color("TextColor"))
                         .font(.subheadline)
                         .bold()
                     Text("\(Date().formatted(date: .long, time: .omitted))")
+                        .foregroundStyle(Color("TextColor").opacity(0.5))
                         .font(.caption)
-                        .foregroundStyle(Color.white.opacity(0.5))
                         .padding(.bottom, 8)
                     HStack {
                         Text("USD $")
+                            .foregroundStyle(Color("TextColor"))
                             .font(.subheadline)
                         Text("12,000.55")
+                            .foregroundStyle(Color("TextColor"))
                             .font(.title)
                             .bold()
                     }
@@ -35,9 +38,9 @@ struct BalanceInfoView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.white)
+                        .foregroundStyle(Color("TextColor"))
                         .padding(8)
-                        .background(Color(#colorLiteral(red: 0.3881825805, green: 0.1972106695, blue: 0.7583934665, alpha: 1)))
+                        .background(Color("Main"))
                         .frame(width: 42, height: 42)
                         .cornerRadius(10)
                         .shadow(color: .white.opacity(0.4), radius: 5, x: -3, y: -3)
@@ -45,7 +48,7 @@ struct BalanceInfoView: View {
                 }
             }
             .padding(16)
-            .background(Color(#colorLiteral(red: 0.3881825805, green: 0.1972106695, blue: 0.7583934665, alpha: 1)))
+            .background(Color("Main"))
             .cornerRadius(10)
             .shadow(color: .white.opacity(0.4), radius: 5, x: -3, y: -3)
             .shadow(color: .black.opacity(0.3), radius: 5, x: 5, y: 5)

@@ -25,10 +25,12 @@ struct CoinInfoView: View {
             // Coin name
             VStack(alignment: .leading) {
                 Text("Bitcoin")
+                    .foregroundStyle(Color("TextColor"))
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .padding(.leading, 4)
                 Text("btc".uppercased())
+                    .foregroundStyle(Color("TextColor"))
                     .font(.caption)
                     .padding(.leading, 5)
             }
@@ -38,9 +40,11 @@ struct CoinInfoView: View {
             // Coin price
             VStack(alignment: .trailing) {
                 Text("39,000.00")
+                    .foregroundStyle(Color("TextColor"))
                     .font(.subheadline)
                     .fontWeight(.semibold)
                 Text("3.2%")
+                    .foregroundStyle(Color("TextColor"))
                     .font(.caption)
                     .foregroundStyle(Color.green)
             }

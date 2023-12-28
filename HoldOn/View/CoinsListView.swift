@@ -10,39 +10,80 @@ import SwiftUI
 struct CoinsListView: View {
     
     @StateObject var networkManager = NetworkManager.shared
+    @State var viewModel = CoinsListViewModel()
     
-    @State private var coinsList = [CoinsList]()
-    
-    @State private var errorMassage = ""
-    @State private var showError = false
+    @State var isSelected = false
     
     var body: some View {
         ZStack {
-            VStack {
-                List(coinsList, id: \.self) { coinsList in
-                    HStack {
-                        Text(coinsList.symbol.uppercased())
+            if viewModel.filterCoinsList().isEmpty {
+                LoadingView()
+                    .onAppear {
+                        viewModel.fetchCoinsList()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            viewModel.isLoadingComplete = true
+                        }
+                    }
+                    .opacity(viewModel.isLoadingComplete ? 0 : 1)
+            } else {
+                ZStack {
+                    VStack {
+                        SwipeButtonView()
+                        HStack {
+                            Button {
+                                CoinsListSaveManager.removeSavedCoinsList {
+                                    viewModel.fetchCoinsList()
+                                }
+                            } label: {
+                                Image(systemName: "arrow.triangle.2.circlepath")
+                            }
+                        }
+                        TextField("Enter Coin name", text: $viewModel.searchCoin)
+                            .foregroundStyle(Color("TextColor"))
+                            .padding(.horizontal, 24)
                         
-                        Spacer()
+                        List(viewModel.filterCoinsList(), id: \.self) { coinsList in
+                            HStack {
+                                Text(coinsList.symbol.uppercased())
+                                
+                                Spacer()
+                                
+                                Text(coinsList.name)
+                                    .onTapGesture {
+                                        self.isSelected = !self.isSelected
+                                        if self.isSelected {
+                                            self.viewModel.addSelectedCoin(coin: coinsList)
+                                        }
+                                    }
+                                    .foregroundColor(self.isSelected ? .green : .none)
+                            }
+                            .foregroundStyle(Color("TextColor"))
+                        }
+                        .background(Color("Main"))
                         
-                        Text(coinsList.name)
+                        Button {
+                            print(viewModel.selectedCoins)
+                        } label: {
+                            Text("Save")
+                        }
                     }
                 }
+                .padding(16)
+                .background(Color("Main"))
+                
             }
-        }
-        .alert(isPresented: $showError) {
-            Alert(title: Text("Error"), message: Text(errorMassage), dismissButton: .default(Text("OK")))
         }
         .task {
-            networkManager.fetchCoinsList(from: Link.coinsList.url) { result in
-                switch result {
-                case .success(let newCoinsList):
-                    self.coinsList = newCoinsList
-                case .failure(let error):
-                    self.errorMassage = warningMassage(error: error)
-                    self.showError = true
-                }
+            if viewModel.filterCoinsList().isEmpty {
+                viewModel.fetchCoinsList()
             }
+        }
+        .alert(isPresented: $viewModel.showError) {
+            Alert(
+                title: Text("Error"),
+                message: Text(viewModel.errorMassage),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
 }
