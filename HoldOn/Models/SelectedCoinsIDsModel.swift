@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct SelectedCoinsIDsModel: Identifiable {
+    var id: String
+}

@@ -8,7 +8,8 @@
 import Foundation
 
 struct CoinsListSaveManager {
-    static func saveCoinsList(_ coinsList: [CoinsList]) {
+    
+    static func saveCoinsList(_ coinsList: [CoinsListModel]) {
         let coinListDictArray = coinsList.map { coinList in
             return [
                 "id": coinList.id,
@@ -24,10 +25,10 @@ struct CoinsListSaveManager {
             completion()
         }
     
-    static func loadCoinsList() -> [CoinsList] {
+    static func loadCoinsList() -> [CoinsListModel] {
         if let coinListDictArray = UserDefaults.standard.array(forKey: "savedCoinsList") as? [[String: Any]] {
             let decodedCoinsList = coinListDictArray.map { coinListDict in
-                return CoinsList(
+                return CoinsListModel(
                     id: coinListDict["id"] as? String ?? "",
                     symbol: coinListDict["symbol"] as? String ?? "",
                     name: coinListDict["name"] as? String ?? ""

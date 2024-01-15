@@ -26,6 +26,12 @@ struct MainView: View {
                     .bold()
                     .foregroundStyle(Color("TextColor"))
                 
+                Button {
+                    CoinsListSaveManager.removeSavedCoinsList {}
+                } label: {
+                    Image(systemName: "trash.circle.fill")
+                }
+                
                 ScrollView {
                     // Balance info
                     BalanceInfoView()

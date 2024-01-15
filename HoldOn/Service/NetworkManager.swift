@@ -33,7 +33,7 @@ final class NetworkManager: ObservableObject {
     
     private init() {}
     
-    func fetchCoinsList(from url: URL, completion: @escaping(Result<[CoinsList], NetworkError>) -> Void) {
+    func fetchCoinsList(from url: URL, completion: @escaping(Result<[CoinsListModel], NetworkError>) -> Void) {
         AF.request(url)
             .validate()
             .responseData { responseData in
@@ -52,16 +52,16 @@ final class NetworkManager: ObservableObject {
             }
     }
     
-    private func parseJSONCoinsList(_ data: Data) -> [CoinsList] {
-        var coinsList = [CoinsList]()
+    private func parseJSONCoinsList(_ data: Data) -> [CoinsListModel] {
+        var coinsList = [CoinsListModel]()
 
-        if let decoded: [CoinsList] = decode(data) {
+        if let decoded: [CoinsListModel] = decode(data) {
             coinsList = decoded
         }
         return coinsList
     }
     
-    func fetchUserCoinsList(from url: URL, completion: @escaping(Result<[CoinsList], NetworkError>) -> Void) {
+    func fetchUserCoinsList(from url: URL, completion: @escaping(Result<[CoinsListModel], NetworkError>) -> Void) {
         AF.request(url)
             .validate()
             .responseData { responseData in
@@ -80,10 +80,10 @@ final class NetworkManager: ObservableObject {
             }
     }
     
-    private func parseJSONUserCoinsList(_ data: Data) -> [CoinsList] {
-        var userCoinsList = [CoinsList]()
+    private func parseJSONUserCoinsList(_ data: Data) -> [CoinsListModel] {
+        var userCoinsList = [CoinsListModel]()
 
-        if let decoded: [CoinsList] = decode(data) {
+        if let decoded: [CoinsListModel] = decode(data) {
             userCoinsList = decoded
         }
         return userCoinsList

@@ -13,19 +13,24 @@ class CoinsListViewModel {
     
     var networkManager = NetworkManager.shared
     
-    var сoinsList = [CoinsList]()
+    var сoinsList = [CoinsListModel]()
+    var selectedCoinsIDs: [SelectedCoinsIDsModel] = []
+    
     var searchCoin = ""
-    var showError = false
     var errorMassage = ""
-    var selectedCoins: [CoinsList] = []
+    var showSearchError = false
+    var showError = false
     var isLoadingComplete = false
+    var isButtonDisabled = false
+    var countdown = 60
     
     func fetchCoinsList() {
         networkManager.fetchCoinsList(from: Link.coinsList.url) { result in
             switch result {
             case .success(let newCoinsList):
                 self.сoinsList = newCoinsList
-                CoinsListSaveManager.saveCoinsList(newCoinsList) // Сохраняем полученные монеты в UserDefaults
+                // Save received coins in UserDefaults
+                CoinsListSaveManager.saveCoinsList(newCoinsList)
             case .failure(let error):
                 self.errorMassage = warningMassage(error: error)
                 self.showError = true
@@ -33,18 +38,53 @@ class CoinsListViewModel {
         }
     }
     
-    func filterCoinsList() -> [CoinsList] {
+    func filterCoinsList() -> [CoinsListModel] {
         let savedCoinsList = CoinsListSaveManager.loadCoinsList()
-
+        
+        let filteredList: [CoinsListModel]
+        
         if searchCoin.isEmpty {
-            return savedCoinsList.isEmpty ? сoinsList : savedCoinsList
+            filteredList = savedCoinsList
         } else {
-            return savedCoinsList.isEmpty ? сoinsList.filter { $0.symbol.uppercased().contains(searchCoin.uppercased()) } : savedCoinsList.filter { $0.symbol.uppercased().contains(searchCoin.uppercased()) }
+            filteredList = savedCoinsList.filter { $0.symbol.uppercased().contains(searchCoin.uppercased()) }
         }
+        
+        // Check for matches
+        if filteredList.isEmpty && !searchCoin.isEmpty {
+            showSearchError = true
+        } else {
+            showSearchError = false
+        }
+        
+        return filteredList
     }
-
     
-    func addSelectedCoin(coin: CoinsList) {
-        selectedCoins.append(coin)
+    func removeSelectedCoin(coin: CoinsListModel) {
+        selectedCoinsIDs.removeAll { $0.id == coin.id }
+        saveSelectedCoins()
+    }
+    
+    func addSelectedCoin(coin: CoinsListModel) {
+        let selectedCoin = SelectedCoinsIDsModel(id: coin.id)
+        selectedCoinsIDs.append(selectedCoin)
+        saveSelectedCoins()
+    }
+    
+    private func saveSelectedCoins() {
+        let selectedCoinID = selectedCoinsIDs.map { $0.id }
+        CoinsIDsSaveManager.saveSelectedCoinIDs(selectedCoinID)
+    }
+    
+    func buttonTapped() {
+        isButtonDisabled = true
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.countdown -=  1
+            
+            if self.countdown <= 0 {
+                self.isButtonDisabled = false
+                self.countdown = 60
+                timer.invalidate()
+            }
+        }
     }
 }

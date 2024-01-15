@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct ErrorSearchCoinView: View {
+    
+    @State var viewModel: CoinsListViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color("Main")
+            Text("No Coins named \"\(viewModel.searchCoin)\" were found")
+                .foregroundStyle(Color("TextColor"))
+                .font(.subheadline)
+                .foregroundStyle(Color("TextColor"))
+        }
     }
-}
-
-#Preview {
-    ErrorSearchCoinView()
 }

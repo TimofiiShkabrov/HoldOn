@@ -11,6 +11,7 @@ struct AllCoinsInfoView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Top Coins by growth")
+                .foregroundStyle(Color("TextColor"))
                 .font(.subheadline)
                 .padding(.bottom, 8)
             

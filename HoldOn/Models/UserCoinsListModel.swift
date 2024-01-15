@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserCoinsList: Codable, Identifiable {
+struct UserCoinsListModel: Codable, Identifiable {
     let id, symbol, name: String
     let image: String
     let currentPrice: Double

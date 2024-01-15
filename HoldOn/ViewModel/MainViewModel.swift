@@ -10,7 +10,5 @@ import Observation
 
 @Observable
 class MainViewModel {
-    
     var showCoinsListView = false
-    
 }

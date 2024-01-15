@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct CoinsList: Decodable, Hashable {
+struct CoinsListModel: Decodable, Hashable {
     let id, symbol, name: String
 }
 
 struct Query: Decodable {
     let status: String
-    let data: [CoinsList]
+    let data: [CoinsListModel]
 }
 
-extension CoinsList {
-    static let example = CoinsList(id: "ocean-protocol", symbol: "ocean", name: "Ocean Protocol")
+extension CoinsListModel {
+    static let example = CoinsListModel(id: "ocean-protocol", symbol: "ocean", name: "Ocean Protocol")
 }
